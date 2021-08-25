@@ -6,7 +6,7 @@ namespace RatingAdjustment.Services
      * 
      */
     public class RatingAdjustmentService
-     {
+    {
         const double MAX_STARS = 5.0;  // Likert scale
         const double Z = 1.96; // 95% confidence interval
 
@@ -31,9 +31,8 @@ namespace RatingAdjustment.Services
          */
         void SetQ(double number_of_ratings)
         {
-         // TODO: Implement this!
-          double x = (_percent_positive -_percent_positive*_percent_positive + (Z*Z)/4*number_of_ratings)/number_of_ratings;
-            _q = Z*Math.Sqrt(x);
+            // TODO: Implement this!
+            _q = Z * Math.Sqrt(((_percent_positive * (1.0 - _percent_positive)) + ((Z * Z) / (4.0 * number_of_ratings))) / number_of_ratings);
         }
 
         /** Adjusted lower bound
@@ -46,8 +45,8 @@ namespace RatingAdjustment.Services
             // TODO: Implement this!
             SetPercentPositive(stars);
             SetQ(number_of_ratings);
-            double lb = _percent_positive+(Z*Z)/(2*number_of_ratings)-_q/1+(Z*Z)/number_of_ratings;
-            return lb*5;
+            double lb = ((_percent_positive + ((Z * Z) / (2.0 * number_of_ratings)) - _q) / (1.0 + ((Z * Z) / number_of_ratings)));
+            return (lb / 20.0) * 100.0;
         }
     }
 }
